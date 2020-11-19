@@ -17,5 +17,7 @@ cat <<EOF > "$BUILD_DIR/.profile.d/0010_cloud_sql_proxy.sh"
 export CLOUDSQL_PROXY_VERSION=${CLOUDSQL_PROXY_VERSION}
 export SQLPROXY_ROOT="/home/vcap/deps/${DEPS_IDX}/sql_proxy"
 export PATH="\$PATH:/home/vcap/deps/${DEPS_IDX}/sql_proxy/bin"
+# run
+source /home/vcap/app/.cloud_sql_proxy.sh
 EOF
 
