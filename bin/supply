@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+# https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html
+
+BUILD_DIR="${1}"
+CACHE_DIR="${2}"
+DEPS_DIR="${3}"
+DEPS_IDX="${4}"
+
+SQLPROXY_DIR="${DEPS_DIR}/${DEPS_IDX}/sql_proxy"
+BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+source ${BUILDPACK_DIR}/parameters.sh
+
+
+if [ -f "${CACHE_DIR}/cloud_sql_proxy-${CLOUDSQL_PROXY_VERSION}.bin" ]
+then
+    echo "-----> Using cloudsql proxy ${CLOUDSQL_PROXY_VERSION} from cache"
+else
+    echo "-----> Downloading cloudsql proxy: ${CLOUDSQL_PROXY_DOWNLOAD_URL}"
+    if ! wget -nv "${CLOUDSQL_PROXY_DOWNLOAD_URL}" -O "${CACHE_DIR}/cloud_sql_proxy-${CLOUDSQL_PROXY_VERSION}.bin" 2>&1 | sed 's/^/       /'
+    then
+        echo "ERROR> cloudsql proxy version ${CLOUDSQL_PROXY_VERSION} not found, URL=${CLOUDSQL_PROXY_DOWNLOAD_URL}"
+        exit 1
+    fi
+fi
+
+echo "-----> Installing Cloudsql Proxy"
+mkdir -p "${SQLPROXY_DIR}/bin"
+cp "${CACHE_DIR}/cloud_sql_proxy-${CLOUDSQL_PROXY_VERSION}.bin" "${SQLPROXY_DIR}/bin/cloud_sql_proxy"
+chmod +x ${SQLPROXY_DIR}/bin/cloud_sql_proxy
+

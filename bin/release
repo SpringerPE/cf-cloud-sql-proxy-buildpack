@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# bin/release <build-dir>
+set -e
+
+BUILD_DIR=$(cd "$1/" && pwd)
+BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
+
+cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${BUILD_DIR}/.cloud_sql_proxy.sh"
+chmod +x "${BUILD_DIR}/.cloud_sql_proxy.sh"
+
+cat <<EOF
+---
+default_process_types:
+  web: /home/vcap/app/.cloud_sql_proxy.sh
+EOF
+
