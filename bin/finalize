@@ -7,17 +7,5 @@ CACHE_DIR="${2}"
 DEPS_DIR="${3}"
 DEPS_IDX="${4}"
 
-SQLPROXY_DIR="${DEPS_DIR}/${DEPS_IDX}/sql_proxy"
-BUILDPACK_DIR=$(dirname $(readlink -f ${BASH_SOURCE%/*}))
-source ${BUILDPACK_DIR}/parameters.sh
-
-echo "-----> Setting up environment profile"
-mkdir -p "$BUILD_DIR/.profile.d"
-cat <<EOF > "$BUILD_DIR/.profile.d/0010_cloud_sql_proxy.sh"
-export CLOUDSQL_PROXY_VERSION=${CLOUDSQL_PROXY_VERSION}
-export SQLPROXY_ROOT="/home/vcap/deps/${DEPS_IDX}/sql_proxy"
-export PATH="\$PATH:/home/vcap/deps/${DEPS_IDX}/sql_proxy/bin"
-# run
-source /home/vcap/app/.cloud_sql_proxy.sh
-EOF
+exit 0
 
