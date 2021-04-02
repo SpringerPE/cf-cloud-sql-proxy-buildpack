@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
+#set -x
 # https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html
 
 BUILD_DIR="${1}"
@@ -32,5 +32,3 @@ chmod +x ${SQLPROXY_DIR}/bin/cloud_sql_proxy
 
 cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${BUILD_DIR}/.cloud_sql_proxy.sh"
 chmod +x "${BUILD_DIR}/.cloud_sql_proxy.sh"
-
-ls -la ${BUILD_DIR}
