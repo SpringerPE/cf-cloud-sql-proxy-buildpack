@@ -33,6 +33,16 @@ chmod +x ${SQLPROXY_DIR}/bin/cloud_sql_proxy
 cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${BUILD_DIR}/.cloud_sql_proxy.sh"
 chmod +x "${BUILD_DIR}/.cloud_sql_proxy.sh"
 
+echo "-----> Setting up environment profile"
+mkdir -p "$BUILD_DIR/.profile.d"
+cat <<EOF > "$BUILD_DIR/.profile.d/0010_cloud_sql_proxy.sh"
+export CLOUDSQL_PROXY_VERSION=${CLOUDSQL_PROXY_VERSION}
+export SQLPROXY_ROOT="/home/vcap/deps/${DEPS_IDX}/sql_proxy"
+export PATH="\$PATH:/home/vcap/deps/${DEPS_IDX}/sql_proxy/bin"
+# run
+source /home/vcap/app/.cloud_sql_proxy.sh
+EOF
+
 cat > "${DEPS_DIR}/${DEPS_IDX}/config.yml" << EOF
 name: cf-cloud-sql-proxy-buildpack
 config: {}
