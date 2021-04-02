@@ -2,5 +2,10 @@
 # bin/release <build-dir>
 set -e
 
-exit 0
+BUILD_DIR=$(cd "$1/" && pwd)
+
+echo "ERROR, cf-cloud-sql-proxy-buildpack is not a final builpack!"
+ehco "Please check the order of the buildpacks you are using"
+
+exit 1
 
