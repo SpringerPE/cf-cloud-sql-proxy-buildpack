@@ -30,8 +30,8 @@ mkdir -p "${SQLPROXY_DIR}/bin"
 cp "${CACHE_DIR}/cloud_sql_proxy-${CLOUDSQL_PROXY_VERSION}.bin" "${SQLPROXY_DIR}/bin/cloud_sql_proxy"
 chmod +x ${SQLPROXY_DIR}/bin/cloud_sql_proxy
 
-cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${BUILD_DIR}/.cloud_sql_proxy.sh"
-chmod +x "${BUILD_DIR}/.cloud_sql_proxy.sh"
+cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${SQLPROXY_DIR}/bin/cloud_sql_proxy.sh"
+chmod +x "${SQLPROXY_DIR}/bin/cloud_sql_proxy.sh"
 
 echo "-----> Setting up environment profile for Cloudsql Proxy"
 mkdir -p "$BUILD_DIR/.profile.d"
@@ -40,7 +40,7 @@ export CLOUDSQL_PROXY_VERSION=${CLOUDSQL_PROXY_VERSION}
 export SQLPROXY_ROOT="/home/vcap/deps/${DEPS_IDX}/sql_proxy"
 export PATH="\$PATH:/home/vcap/deps/${DEPS_IDX}/sql_proxy/bin"
 # run
-source /home/vcap/app/.cloud_sql_proxy.sh
+source /home/vcap/deps/${DEPS_IDX}/sql_proxy/bin/cloud_sql_proxy.sh
 EOF
 
 cat > "${DEPS_DIR}/${DEPS_IDX}/config.yml" << EOF
