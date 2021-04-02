@@ -32,3 +32,8 @@ chmod +x ${SQLPROXY_DIR}/bin/cloud_sql_proxy
 
 cp "${BUILDPACK_DIR}/cloud_sql_proxy.sh" "${BUILD_DIR}/.cloud_sql_proxy.sh"
 chmod +x "${BUILD_DIR}/.cloud_sql_proxy.sh"
+
+cat > "${DEPS_DIR}/${DEPS_IDX}/config.yml" << EOF
+name: cf-cloud-sql-proxy-buildpack
+config: {}
+EOF
