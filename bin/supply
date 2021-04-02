@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 # https://docs.cloudfoundry.org/buildpacks/understand-buildpacks.html
 
 BUILD_DIR="${1}"
